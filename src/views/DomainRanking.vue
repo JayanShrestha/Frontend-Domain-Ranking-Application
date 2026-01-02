@@ -32,7 +32,7 @@ import { ref } from 'vue';
 import {
   fetchsingledomain,
   fetchmultdomain,
-} from '../api/rankingApi';
+} from '../api/rankingAPI.js';
 import DomainRankingChart from '../components/DomainRankingChart.vue';
 
 const input = ref('');
