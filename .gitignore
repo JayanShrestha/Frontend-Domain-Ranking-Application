@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+#Portnumber and API
+src/api/rankingAPI.js
+
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
