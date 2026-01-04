@@ -1,25 +1,28 @@
 <template>
-  <div class="page">
-    <h1>Domain Ranking Viewer</h1>
-
+  <div class="mx-auto  px-4 border-b bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-200 shadow-sm">
+    <h1 class="text-3xl font-bold text-slate-50 pt-5">Domain Ranking Viewer</h1>
+    <p class="text-md text-slate-50 pb-5">Ranking of domain over time</p>
+    </div>
+    <div class="mx-auto max-w-6xl px-4 py-6 space-y-6 mt-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
     <form @submit.prevent="onSubmit" class="form">
       <input
+        class="border-2 rounded"
         v-model="input"
         @input="formatAndValidate"
         type="text"
         placeholder="google.com or google.com,facebook.com"
         required
       />
-      <p v-if="!isValidDomain && input">❌ Invalid domain name</p>
-      <button :disabled="loading || !isValidDomain">
+      <p v-if="!isValidDomain && input"><button class="text-black border-2 bg-amber-200 rounded ">❌ Invalid domain name</button></p>
+      <button class="border bg-cyan-500 text-white rounded" :disabled="loading || !isValidDomain">
         {{ loading ? 'Loading...' : 'Fetch Rankings' }}
       </button>
     </form>
-
+    </div>
     <p v-if="error" class="error">{{"Type domain correctly and check again" }}</p>
 
    
-  </div>
+ 
   <div class="chart">
     
 <DomainRankingChart v-if="results.length" :results="results"/>
