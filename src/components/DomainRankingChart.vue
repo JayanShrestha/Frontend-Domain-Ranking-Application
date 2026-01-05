@@ -1,5 +1,9 @@
 <template>
+  <div class="border-2 my-6 mx-auto rounded-2xl max-w-6xl border-slate-200 shadow-sm ">
+  <div class="flex justify-center w-full h-[400px] sm:h-[500px]">
   <Line :data="chartData" :options="chartOptions" />
+</div>
+</div>
 </template>
 
 <script setup>
@@ -14,7 +18,6 @@ import {
   CategoryScale,
   LinearScale,
 } from 'chart.js';
-import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 
 ChartJS.register(
@@ -25,7 +28,6 @@ ChartJS.register(
   PointElement,
   CategoryScale,
   LinearScale,
-  ChartDataLabels
 );
 
 const props = defineProps({
@@ -43,20 +45,24 @@ const chartData = {
 };
 
 const chartOptions = {
+  animation:{
+    duration: 600,
+    easing: 'easeOutQuart',// animation for dropping the chart
+  },
   responsive: true,
+  maintainAspectRatio: false,
   interaction:{
     mode: 'nearest',
     intersect: false,
   },
   plugins: {
     tooltip:{
-      enabled: true,
       callbacks:{
         title: (context) =>{
           const rawDate = context[0].label;
           return new Date(rawDate).toISOString().split('T')[0];
         },
-        label: (context) => `${context.dataset.label}: ${context.raw}`,
+       // label: (context) => `${context.dataset.label}: ${context.raw}`,
       },
     },
     legend:{
@@ -70,9 +76,10 @@ const chartOptions = {
   },
   elements: {
     point: {
-      radius: 0,
-      hoverRadius: 6,
+      radius: 6,
+      hoverRadius: 9,
       hitRadius: 20,
+      
     },
     line: {
       tension: 0.3,
@@ -86,15 +93,21 @@ const chartOptions = {
         display: true,
         text: 'Rank',
       },
+      ticks:{
+        maxTickLimit:6,
+        autoSkip:true,// resize the column according to responsiveness
+      }
     },
     x: {
       type: 'category',
       ticks:{
-        callback: function(value, index, ticks){
+        
+        maxTickLimit: 7,
+        callback: function(value){
           const rawDate = this.getLabelForValue(value);
           return new Date(rawDate).toISOString().split('T')[0]; // YYYY/MM/DD
         },
-        autoSkip: false,
+        autoSkip: true,// resize the row according to responsiveness
         maxRotation: 45,
         minRotation: 45,
       },
