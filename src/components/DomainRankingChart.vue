@@ -1,10 +1,17 @@
 <template>
-  <div class="border-2 my-6 mx-auto rounded-2xl max-w-6xl border-slate-200 shadow-sm ">
-  <div class="flex justify-center w-full h-[400px] sm:h-[500px]">
-  <Line :data="chartData" :options="chartOptions" />
-</div>
-</div>
+  <div class="border-2 my-6 mx-auto rounded-2xl max-w-6xl border-slate-200 shadow-sm">
+    <div class="flex justify-center items-center w-full h-[400px] sm:h-[500px]">
+
+   
+      <!-- Chart -->
+   
+        <Line :data="chartData" :options="chartOptions" />
+      
+
+    </div>
+  </div>
 </template>
+
 
 <script setup>
 import { Line } from 'vue-chartjs';
