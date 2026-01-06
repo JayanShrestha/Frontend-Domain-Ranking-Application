@@ -17,7 +17,7 @@
         required
       />
       <p v-if="!isValidDomain && input"><button class="text-black border-2 bg-amber-200 rounded-3xl hover:px-6 hover:py-3  duration-300 disabled" :disabled="!isValidDomain">❌ Invalid domain name</button></p>
-      <button class="border bg-cyan-500 text-white rounded-3xl" :disabled="loading">
+      <button class="border bg-cyan-500 text-white rounded-3xl" :disabled="loading || !isValidDomain">
         {{ loading ? 'Loading...' : 'Fetch Rankings' }}
       </button>
     </form>
@@ -25,9 +25,15 @@
     <p v-if="error" class="error max-w-6xl mx-auto my-5">{{"Type domain correctly and check again" }}</p>
 
    
- 
-  
-    
+    <!-- Spinner -->
+      <div v-if="loading" class="absolute inset-0 backdrop-blur-sm bg-white/40 z-20 flex flex-col justify-center items-center">
+        <div class="flex border border-slate-500 border-opacity-40 shadow-sm bg-slate-200 p-3">
+          <div class="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
+        <p class="text-center text-slate-500 mt-4 text-sm pl-2">Fetching Domain Rankings...</p>
+        </div>
+        
+      </div>
+
 <DomainRankingChart v-if="results.length" :results="results"/>
  
 </template>
@@ -55,13 +61,9 @@ function formatAndValidate() {
     .filter(Boolean)           // remove empty entries
     .join(', ');               // enforce ", " format
 
-  isValidDomain.value = multiDomainRegex.test(cleaned);
+  isValidDomain.value = multiDomainRegex.test(cleaned);//checks whether the pattern exists
 }
 
-
-function formatDate(date) {
-  return new Date(date).toLocaleDateString();
-}
 
 async function onSubmit() {
   error.value = '';
@@ -89,7 +91,10 @@ async function onSubmit() {
     error.value = err.response?.data?.message || 'Failed to fetch rankings';
   } finally {
     loading.value = false;
+  
   }
+
+
 }
 </script>
 
@@ -97,7 +102,7 @@ async function onSubmit() {
 .page {
   max-width: 900px;
   margin: 2rem auto;
-  font-family: system-ui;
+  font-family: calibri;
 }
 .form {
   display: flex;
