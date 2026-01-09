@@ -19,5 +19,7 @@ export async function fetchmultdomain(domains){
             domains
         },
     });
+    console.log(result.data);
     return result.data;
+    
 }
