@@ -34,7 +34,17 @@
         
       </div>
 
+      
+    <div v-if="!results.length" class="border-2 my-6 mx-auto rounded-2xl max-w-6xl border-slate-200 shadow-sm bg-white px-5 py-5">
+       <h2 class="text-md font-bold px-5 mb-5">Results</h2>
+  
+      <div class="flex justify-center items-center border-2  rounded-2xl border-slate-200 shadow-sm h-[60px] w-full px-5">
+        <p class="text-lg text-slate-400">Enter the domain names and search to view them in chart</p>
+      
+</div>
+</div>
 <DomainRankingChart v-if="results.length" :results="results"/>
+
  
 </template>
 
@@ -45,6 +55,7 @@ import {
   fetchmultdomain,
 } from '../api/rankingAPI.js';
 import DomainRankingChart from '../components/DomainRankingChart.vue';
+import DomainRankingRank from '../components/DomainRankingRank.vue';
 
 const input = ref('');
 const loading = ref(false);

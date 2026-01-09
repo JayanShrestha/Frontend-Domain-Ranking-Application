@@ -1,5 +1,6 @@
 <template>
-  <div class="border-2 my-6 mx-auto rounded-2xl max-w-6xl border-slate-200 shadow-sm">
+  <div class="border-2 my-6 mx-auto rounded-2xl max-w-6xl border-slate-200 shadow-sm bg-white px-5">
+    
     <div class="flex justify-center items-center w-full h-[400px] sm:h-[500px]">
 
    
@@ -9,6 +10,7 @@
       
 
     </div>
+  <DomainRankingRank :results="results"/>
   </div>
 </template>
 
@@ -25,7 +27,7 @@ import {
   CategoryScale,
   LinearScale,
 } from 'chart.js';
-
+import DomainRankingRank from './DomainRankingRank.vue';
 
 ChartJS.register(
   Title,
@@ -40,7 +42,7 @@ ChartJS.register(
 const props = defineProps({
   results: Array, // array of domain ranking results
 });
-
+const results = props.results;
 const chartData = {
   labels: props.results[0]?.records.map(r => r.checkedAt).sort(), // assumes all domains share same dates
   datasets: props.results.map((item, index) => ({
