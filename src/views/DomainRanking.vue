@@ -1,25 +1,26 @@
 <template>
-  <div class="mx-auto  px-4 border-b bg-gradient-to-r from-cyan-400 via-teal-300 to-emerald-200 shadow-sm">
+  <div class="mx-auto  px-4 border-b bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-left flex-col">
-      <h1 class="text-3xl font-bold text-slate-50 pt-5">Domain Ranking Viewer</h1>
-    <p class="text-md text-slate-50 pb-5">Ranking of domain over time</p>
+      <h1 class="text-3xl font-bold text-gray-100 pt-5 drop-shadow-md">Domain Ranking Viewer</h1>
+    <p class="text-md font-semibold text-gray-50 pb-5 drop-shadow-md">Ranking of domain over time</p>
     </div>
     
     </div>
-    <div class="mx-auto max-w-6xl px-4 py-6 space-y-6 mt-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm ">
-    <form @submit.prevent="onSubmit" class="form">
-      <input
-        class="border-2 rounded-2xl outline-none"
+    <div class="mx-auto max-w-6xl px-4 py-6 space-y-6 mt-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <form @submit.prevent="onSubmit" class="form flex-col sm:flex-row">
+      <input 
+        class="border-2 rounded-2xl outline-none focus:border-slate-400"
         v-model="input"
         @input="formatAndValidate"
         type="text"
-        placeholder="google.com or google.com,facebook.com"
+        placeholder="Enter domain names like google.com or google.com,facebook.com"
         required
       />
-      <p v-if="!isValidDomain && input"><button class="text-black border-2 bg-amber-200 rounded-3xl hover:px-6 hover:py-3  duration-300 disabled" :disabled="!isValidDomain">❌ Invalid domain name</button></p>
-      <button class="border bg-cyan-500 text-white rounded-3xl" :disabled="loading || !isValidDomain">
+      <p v-if="!isValidDomain && input"><button class="text-black border-2 bg-amber-200 rounded-3xl hover:px-6 hover:py-3  duration-300 cursor-pointer" :disabled="!isValidDomain">❌ Invalid domain name</button></p>
+      <button class="border bg-cyan-500 text-white rounded-3xl font-sans font-semibold cursor-pointer" :disabled="loading || !isValidDomain">
         {{ loading ? 'Loading...' : 'Fetch Rankings' }}
       </button>
+      <button @click="input=''" type="button" class="border bg-emerald-500 text-white rounded-3xl font-sans font-semibold cursor-pointer" >Clear</button>
     </form>
     </div>
     <p v-if="error" class="error max-w-6xl mx-auto my-5">{{"Type domain correctly and check again" }}</p>
@@ -107,13 +108,15 @@ async function onSubmit() {
 
 
 }
+
 </script>
 
 <style scoped>
+
 .page {
   max-width: 900px;
   margin: 2rem auto;
-  font-family: calibri;
+ 
 }
 .form {
   display: flex;
@@ -122,7 +125,8 @@ async function onSubmit() {
 }
 input {
   flex: 1;
-  padding: 0.5rem;
+  padding: 1.5rem;
+  height: 1.5rem;
 }
 button {
   padding: 0.5rem 1rem;
