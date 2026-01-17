@@ -55,25 +55,30 @@ const chartData = {
 
 const chartOptions = {
   animation:{
-    duration: 600,
+    duration: 1000,
     easing: 'easeOutQuart',// animation for dropping the chart
   },
   responsive: true,
   maintainAspectRatio: false,
   interaction:{
-    mode: 'nearest',
+    mode: 'index',
     intersect: false,
   },
   plugins: {
-    tooltip:{
-      callbacks:{
-        title: (context) =>{
-          const rawDate = context[0].label;
-          return new Date(rawDate).toISOString().split('T')[0];
-        },
-       // label: (context) => `${context.dataset.label}: ${context.raw}`,
-      },
+   tooltip: {
+  callbacks: {
+    title: (context) => {
+      const rawDate = context[0].label
+      return new Date(rawDate).toISOString().split('T')[0]
     },
+
+    label: (context) => {
+      const domain = context.dataset.label
+      const rank = context.raw
+      return `${domain}: ${rank}`
+    }
+  }
+},
     legend:{
       display:true,
     },
@@ -88,6 +93,10 @@ const chartOptions = {
       radius: 6,
       hoverRadius: 9,
       hitRadius: 20,
+      // Use dataset borderColor for point color
+    backgroundColor: (ctx) => ctx.dataset.borderColor,//chartjs passes context object to callbacks
+    borderColor: (ctx) => ctx.dataset.borderColor,
+
       
     },
     line: {

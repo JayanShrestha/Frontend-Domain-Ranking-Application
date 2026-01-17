@@ -9,7 +9,7 @@
     <div class="mx-auto max-w-6xl px-4 py-6 space-y-6 mt-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
     <form @submit.prevent="onSubmit" class="form flex-col sm:flex-row">
       <input 
-        class="border-2 rounded-2xl outline-none focus:border-slate-400"
+        class="border-2 rounded-2xl outline-none focus:border-slate-400 overflow-x-auto whitespace-nowrap w-full"
         v-model="input"
         @input="formatAndValidate"
         type="text"
@@ -17,7 +17,7 @@
         required
       />
       <p v-if="!isValidDomain && input"><button class="text-black border-2 bg-amber-200 rounded-3xl hover:px-6 hover:py-3  duration-300 cursor-pointer" :disabled="!isValidDomain">❌ Invalid domain name</button></p>
-      <button class="border bg-cyan-500 text-white rounded-3xl font-sans font-semibold cursor-pointer" :disabled="loading || !isValidDomain">
+      <button v-if="!input || isValidDomain" class="border bg-cyan-500 text-white rounded-3xl font-sans font-semibold cursor-pointer" :disabled="loading || !isValidDomain" >
         {{ loading ? 'Loading...' : 'Fetch Rankings' }}
       </button>
       <button @click="input=''" type="button" class="border bg-emerald-500 text-white rounded-3xl font-sans font-semibold cursor-pointer" >Clear</button>

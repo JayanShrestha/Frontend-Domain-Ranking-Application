@@ -17,6 +17,7 @@
                 </div>
 
             </div>
+        
         </div>
   
     </template>
@@ -31,7 +32,8 @@ import { ref } from 'vue';
                 required: true,
             }        
             
-        });   
+        }); 
+
         function getMinRank(result){
              if (!result || !Array.isArray(result.records) || result.records.length === 0) {
     return null; // no records available
