@@ -1,5 +1,5 @@
 <template>
-  <div class="mx-auto  px-4 border-b bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 shadow-sm">
+  <div class="mx-auto  px-4 border-b bg-gradient-to-r from-[#8c52ff] to-[#ff914d] shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-left flex-col">
       <h1 class="text-3xl font-bold text-gray-100 pt-5 drop-shadow-md">Domain Ranking Viewer</h1>
     <p class="text-md font-semibold text-gray-50 pb-5 drop-shadow-md">Ranking of domain over time</p>
@@ -8,19 +8,40 @@
     </div>
     <div class="mx-auto max-w-6xl px-4 py-6 space-y-6 mt-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
     <form @submit.prevent="onSubmit" class="form flex-col sm:flex-row">
-      <input 
+         <div
+         class="flex items-center flex-wrap gap-2 border rounded-lg p-2 w-full cursor-text"
+    @click="focusInput"
+>
+      <div
+        v-for="(item, index) in items"
+        :key="index"
+        class="flex items-center gap-2 px-3 py-3 rounded-lg bg-slate-200 text-black text-sm font-medium"
+      >
+        {{ item }}
+
+        <!-- Close icon -->
+        <span
+          @click.stop="removeItem(index)"
+          class="w-4 h-4 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 cursor-pointer"
+        >
+          ×
+        </span>
+      </div>
+       <input 
         class="border-2 rounded-2xl outline-none focus:border-slate-400 overflow-x-auto whitespace-nowrap w-full"
         v-model="input"
         @input="formatAndValidate"
         type="text"
-        placeholder="Enter domain names like google.com or google.com,facebook.com"
+        :placeholder="showPlaceholder?'Enter domain names like google.com or google.com,facebook.com' : ''" 
         required
       />
+    </div>
+     
       <p v-if="!isValidDomain && input"><button class="text-black border-2 bg-amber-200 rounded-3xl hover:px-6 hover:py-3  duration-300 cursor-pointer" :disabled="!isValidDomain">❌ Invalid domain name</button></p>
-      <button v-if="!input || isValidDomain" class="border bg-cyan-500 text-white rounded-3xl font-sans font-semibold cursor-pointer" :disabled="loading || !isValidDomain" >
-        {{ loading ? 'Loading...' : 'Fetch Rankings' }}
+      <button v-if="!input || isValidDomain" class="border bg-gradient-to-r from-[#8c52ff] to-[#ff914d] text-gray-50 rounded-3xl font-sans font-semibold cursor-pointer " :disabled="loading || !isValidDomain" >
+       <span class="drop-shadow-md">{{ loading ? 'Loading...' : 'Fetch Rankings' }}</span> 
       </button>
-      <button @click="input=''" type="button" class="border bg-emerald-500 text-white rounded-3xl font-sans font-semibold cursor-pointer" >Clear</button>
+      <button @click="input=''" type="button" class="border bg-[#ff914d] text-white rounded-3xl font-sans font-semibold cursor-pointer drop-shadow-sm" ><span class="drop-shadow-md">Clear</span></button>
     </form>
     </div>
     <p v-if="error" class="error max-w-6xl mx-auto my-5">{{"Type domain correctly and check again" }}</p>
@@ -56,13 +77,14 @@ import {
   fetchmultdomain,
 } from '../api/rankingAPI.js';
 import DomainRankingChart from '../components/DomainRankingChart.vue';
-import DomainRankingRank from '../components/DomainRankingRank.vue';
 
 const input = ref('');
 const loading = ref(false);
 const error = ref('');
 const results = ref([]);
 const isValidDomain = ref(false);
+const items = ref([]);
+const showPlaceholder = ref(true);// added boolean value to show placeholder
 
 const multiDomainRegex =
   /^((?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6})(, (?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6})*$/;
@@ -74,6 +96,28 @@ function formatAndValidate() {
     .join(', ');               // enforce ", " format
 
   isValidDomain.value = multiDomainRegex.test(cleaned);//checks whether the pattern exists
+  const text = input.value;
+  if(text.includes(',')){// initiates when the ',' is entered into the logic
+  showPlaceholder.value = false;//placeholder is empty
+checkComma(text);// initiates the funciton to change the input domain into button with close button
+}
+}
+function checkComma(text){
+ 
+    const names = text.split(',');
+    const name = names[0].trim();// tankes in domain name
+   
+
+    if(name){
+     items.value.push(name);
+    }
+    //reset the input to whatever comes after the comma
+    input.value = text.split(',').slice(1).join(',').trim();
+  }
+function removeItem(index){// function to remove the input button from the field
+items.value.splice(index,1);
+showPlaceholder.value = true;
+
 }
 
 
