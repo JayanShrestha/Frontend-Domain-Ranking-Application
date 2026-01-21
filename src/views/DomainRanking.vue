@@ -1,21 +1,21 @@
 <template>
   <div class="mx-auto  px-4 border-b bg-gradient-to-r from-[#8c52ff] to-[#ff914d] shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-left flex-col">
-      <h1 class="text-3xl font-bold text-gray-100 pt-5 drop-shadow-md">Domain Ranking Viewer</h1>
-    <p class="text-md font-semibold text-gray-50 pb-5 drop-shadow-md">Ranking of domain over time</p>
+      <h1 class="sm:text-base md:text-3xl text-sm font-bold text-gray-100 pt-5 drop-shadow-md">Domain Ranking Viewer</h1>
+    <p class="sm:text-sm md:text-base text-xs font-semibold text-gray-50 pb-5 drop-shadow-md">Ranking of domain over time</p>
     </div>
     
     </div>
-    <div class="mx-auto max-w-6xl px-4 py-6 space-y-6 mt-5 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+    <div class="mx-auto max-w-6xl px-4 py-6 space-y-6 mt-5 border border-slate-200 bg-white p-4 shadow-sm">
     <form @submit.prevent="onSubmit" class="form flex-col sm:flex-row">
          <div
-         class="flex items-center flex-wrap gap-2 border rounded-lg p-2 w-full cursor-text"
+         class="flex items-center flex-wrap gap-2 border rounded-3xl p-2 w-full cursor-text md:max-w-4xl xs:max-w-sm focus-within:ring-2 focus-within:ring-slate-400"
     @click="focusInput"
 >
       <div
         v-for="(item, index) in items"
         :key="index"
-        class="flex items-center gap-2 px-3 py-3 rounded-lg bg-slate-200 text-black text-sm font-medium"
+        class="flex items-center gap-2 px-2 py-2 rounded-xl bg-slate-200 text-black text-sm font-medium"
       >
         {{ item }}
 
@@ -28,20 +28,20 @@
         </span>
       </div>
        <input 
-        class="border-2 rounded-2xl outline-none focus:border-slate-400 overflow-x-auto whitespace-nowrap w-full"
+        class="flex-1 min-w-[180px] outline-none rounded-2xl focus:border-slate-400 overflow-x-auto whitespace-nowrap w-10 sm:text-sm md:text-base text-xs"
         v-model="input"
         @input="formatAndValidate"
+        @keydown.enter.prevent = "addFromEnter"
         type="text"
         :placeholder="showPlaceholder?'Enter domain names like google.com or google.com,facebook.com' : ''" 
-        required
       />
     </div>
      
-      <p v-if="!isValidDomain && input"><button class="text-black border-2 bg-amber-200 rounded-3xl hover:px-6 hover:py-3  duration-300 cursor-pointer" :disabled="!isValidDomain">❌ Invalid domain name</button></p>
-      <button v-if="!input || isValidDomain" class="border bg-gradient-to-r from-[#8c52ff] to-[#ff914d] text-gray-50 rounded-3xl font-sans font-semibold cursor-pointer " :disabled="loading || !isValidDomain" >
-       <span class="drop-shadow-md">{{ loading ? 'Loading...' : 'Fetch Rankings' }}</span> 
+      <p v-if="!isValidDomain && input"><button class="text-black border-2 bg-amber-200 rounded-3xl  hover:translate-y-2  duration-300 cursor-pointer mt-3 sm:text-sm md:text-base text-xs" :disabled="!isValidDomain">❌ Invalid domain name</button></p>
+      <button v-if="!input || isValidDomain" class="border bg-gradient-to-r from-[#8c52ff] to-[#ff914d] text-gray-50 rounded-3xl font-sans font-semibold cursor-pointer h-fit sm:w-48 hover:translate-y-2 duration-300 mt-3 sm:text-sm md:text-base text-xs" :disabled="loading || !isValidDomain">
+      {{ loading ? 'Loading...' : 'Get Rankings' }} 
       </button>
-      <button @click="input=''" type="button" class="border bg-[#ff914d] text-white rounded-3xl font-sans font-semibold cursor-pointer drop-shadow-sm" ><span class="drop-shadow-md">Clear</span></button>
+      <button @click.stop="input='' || removeButtons()" type="button" class="border bg-[#ff914d] text-white rounded-3xl font-sans font-semibold cursor-pointer drop-shadow-sm h-fit hover:translate-y-2 duration-300 mt-3" ><span class="drop-shadow-md sm:text-sm md:text-base text-xs">Clear</span></button>
     </form>
     </div>
     <p v-if="error" class="error max-w-6xl mx-auto my-5">{{"Type domain correctly and check again" }}</p>
@@ -61,7 +61,7 @@
        <h2 class="text-md font-bold px-5 mb-5">Results</h2>
   
       <div class="flex justify-center items-center border-2  rounded-2xl border-slate-200 shadow-sm h-[60px] w-full px-5">
-        <p class="text-lg text-slate-400">Enter the domain names and search to view them in chart</p>
+        <p class="sm:text-sm  md:text-base text-xs  text-slate-400">Enter the domain names and search to view them in chart</p>
       
 </div>
 </div>
@@ -84,6 +84,7 @@ const error = ref('');
 const results = ref([]);
 const isValidDomain = ref(false);
 const items = ref([]);
+const inputCleaned = ref('');
 const showPlaceholder = ref(true);// added boolean value to show placeholder
 
 const multiDomainRegex =
@@ -95,11 +96,15 @@ function formatAndValidate() {
     .filter(Boolean)           // remove empty entries
     .join(', ');               // enforce ", " format
 
-  isValidDomain.value = multiDomainRegex.test(cleaned);//checks whether the pattern exists
+  isValidDomain.value = multiDomainRegex.test(cleaned);//checks whether the pattern exists 
+  if(isValidDomain.value===true){
+  inputCleaned.value= input.value;
   const text = input.value;
   if(text.includes(',')){// initiates when the ',' is entered into the logic
   showPlaceholder.value = false;//placeholder is empty
-checkComma(text);// initiates the funciton to change the input domain into button with close button
+checkComma(text);// initiates the function to change the input domain into button with close button
+  }
+
 }
 }
 function checkComma(text){
@@ -113,11 +118,31 @@ function checkComma(text){
     }
     //reset the input to whatever comes after the comma
     input.value = text.split(',').slice(1).join(',').trim();
+    console.log(items.value)
   }
+
+function addFromEnter(){// function to add the domain when enter is pressed
+  const name = input.value.trim();
+  if(name){
+    items.value.push(name);
+    input.value='';
+    showPlaceholder.value = false;
+  }
+}
 function removeItem(index){// function to remove the input button from the field
 items.value.splice(index,1);
 showPlaceholder.value = true;
 
+}
+
+function focusInput() {
+  if (input.value) {
+    input.value.focus()
+  }
+}
+function removeButtons(){// function to remove all buttons when clear is clicked
+  items.value.splice(0,items.value.length);
+  showPlaceholder.value = true;
 }
 
 
@@ -127,7 +152,7 @@ async function onSubmit() {
   loading.value = true;
 
   try {
-    const domains = input.value.split(',').map(d => d.trim());//splits the strings into substrings and return them as array with white spaced removed
+    const domains = items.value.map(d => d.trim());//splits the strings into substrings and return them as array with white spaced removed
 
     if (domains.length === 1) {//if the domain is single domain input
       const data = await fetchsingledomain(domains[0]);
@@ -140,7 +165,7 @@ async function onSubmit() {
         },
       ];
     } else {
-      const data = await fetchmultdomain(input.value);//backend does the array conversion so sending the raw data 
+      const data = await fetchmultdomain(items.value.toString());//backend does the array conversion so sending the raw data 
       results.value = data.results;
     }
   } catch (err) {
