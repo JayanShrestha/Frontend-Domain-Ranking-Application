@@ -195,7 +195,7 @@ async function fetchdata(){// function to fetch data from backend
   }
 
 }
-const shareableLink = computed(() => {// computes the shareable link for the current results from the URL parameters
+const shareableLink = computed(() => {// computes the shareable link for the current results
   if (results.value.length === 0) return '';// if no results, return empty string
   const domains = results.value.map(r => r.domain).join(',');// joins the domain names with comma
   return `${window.location.origin}/?domains=${encodeURIComponent(domains)}`;// constructs the shareable link with encoded domain names
@@ -203,13 +203,12 @@ const shareableLink = computed(() => {// computes the shareable link for the cur
 
 onMounted(() => {// on component mount, check for domains in URL parameters
   const urlParams = new URLSearchParams(window.location.search);// gets the URL parameters
-  const domainsParam = urlParams.get('domains');// gets the 'domains' parameter value from the URL
+  const domainsParam = urlParams.get('domains');// gets the 'domains' parameter value
   if (domainsParam) {// if domains parameter exists
     const domainList = domainsParam.split(',').map(d => d.trim());// splits and trims the domain names
     items.value = domainList;
     showPlaceholder.value = false;
-    loading.value = true;
-    await fetchdata();// fetches the data for the domains
+    fetchdata();// fetches the data for the domains
   }
 });
 
