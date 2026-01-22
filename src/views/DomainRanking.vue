@@ -208,6 +208,7 @@ onMounted(() => {// on component mount, check for domains in URL parameters
     const domainList = domainsParam.split(',').map(d => d.trim());// splits and trims the domain names
     items.value = domainList;
     showPlaceholder.value = false;
+    loading.value = true;
     fetchdata();// fetches the data for the domains
   }
 });
