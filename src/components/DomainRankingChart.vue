@@ -1,14 +1,26 @@
 <template>
   <div class="border-2 my-6 mx-auto rounded-2xl max-w-6xl border-slate-200 shadow-sm bg-white px-5">
-    
+    <div class="flex justify-end py-3">
+ <button class="border rounded-3xl drop-shadow-md hover:bg-gray-100 active:scale-95 transition text-slate-700   p-2" @click="copyLink"><span class="flex"><svg xmlns="http://www.w3.org/2000/svg" 
+     fill="none" 
+     viewBox="0 0 24 24" 
+     stroke-width="1.5" 
+     stroke="currentColor" 
+     class="w-6 h-6">
+  <path stroke-linecap="round" 
+        stroke-linejoin="round" 
+        d="M8 16.5H6.75A2.25 2.25 0 0 1 4.5 14.25V6.75A2.25 2.25 0 0 1 6.75 4.5h7.5A2.25 2.25 0 0 1 16.5 6.75V8m-6 11.25h7.5A2.25 2.25 0 0 0 20.25 17V9.75A2.25 2.25 0 0 0 18 7.5h-7.5A2.25 2.25 0 0 0 8.25 9.75v7.5A2.25 2.25 0 0 0 10.5 19.5z" />
+</svg> shareable link</span></button>
+    </div>
+   
     <div class="flex justify-center items-center w-full h-[400px] sm:h-[500px]">
 
    
       <!-- Chart -->
-   
+         
         <Line :data="chartData" :options="chartOptions" />
+              
       
-
     </div>
   <DomainRankingRank :results="results"/>
   </div>
@@ -41,8 +53,10 @@ ChartJS.register(
 
 const props = defineProps({
   results: Array, // array of domain ranking results
+  shareableLink: String,
 });
 const results = props.results;
+const shareableLink = props.shareableLink;
 const chartData = {
   labels: props.results[0]?.records.map(r => r.checkedAt).sort(), // assumes all domains share same dates
   datasets: props.results.map((item, index) => ({
@@ -136,4 +150,9 @@ const chartOptions = {
     },
   },
 };
+
+function copyLink(){
+  if(!shareableLink) return;// if no link, do nothing
+  navigator.clipboard.writeText(shareableLink);// writes the link to clipboard
+}
 </script>
