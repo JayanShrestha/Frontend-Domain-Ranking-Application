@@ -71,18 +71,20 @@
       
 </div>
 </div>
-<DomainRankingChart v-if="results.length" :results="results"/>
+
+<DomainRankingChart v-if="results.length" :results="results" :shareableLink="shareableLink"/>
 
  
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import {
   fetchsingledomain,
   fetchmultdomain,
 } from '../api/rankingAPI.js';
 import DomainRankingChart from '../components/DomainRankingChart.vue';
+import { computed } from 'vue';
 
 const input = ref('');
 const loading = ref(false);
@@ -167,7 +169,7 @@ async function onSubmit() {
  
  }
   
-async function fetchdata(){
+async function fetchdata(){// function to fetch data from backend
     try {
     const domains = items.value.map(d => d.trim());//splits the strings into substrings and return them as array with white spaced removed
 
@@ -193,6 +195,23 @@ async function fetchdata(){
   }
 
 }
+const shareableLink = computed(() => {// computes the shareable link for the current results
+  if (results.value.length === 0) return '';// if no results, return empty string
+  const domains = results.value.map(r => r.domain).join(',');// joins the domain names with comma
+  return `${window.location.origin}/?domains=${encodeURIComponent(domains)}`;// constructs the shareable link with encoded domain names
+});
+
+onMounted(() => {// on component mount, check for domains in URL parameters
+  const urlParams = new URLSearchParams(window.location.search);// gets the URL parameters
+  const domainsParam = urlParams.get('domains');// gets the 'domains' parameter value
+  if (domainsParam) {// if domains parameter exists
+    const domainList = domainsParam.split(',').map(d => d.trim());// splits and trims the domain names
+    items.value = domainList;
+    showPlaceholder.value = false;
+    fetchdata();// fetches the data for the domains
+  }
+});
+
 
 </script>
 
