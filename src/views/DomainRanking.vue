@@ -50,12 +50,11 @@
     <p class="mt-4 sm:text-sm text-xs text-slate-500 px-6">Try with popular domains:</p>
    </div>
     <div class="flex flex-wrap gap-3 mt-2 px-6">
-      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topBanks)">Top 5 Australian Banks</button>
-      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topSocialMedia)">Social Media Battle</button>
-      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topRetail)">Retails Rampage</button>
-      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topNews)">Top Aussie News</button>
-      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topAI)">AI vs AI</button>
-      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topJobs)">Jobs Platform</button>
+      <button type="button" class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(banks)">Top 5 Australian Banks</button>
+      <button type="button" class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(socialMedia)">Social Media Battle</button>
+      <button type="button" class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(retail)">Retails Rampage</button>
+      <button type="button" class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(news)">Top Aussie News</button>
+      <button type="button" class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(jobs)">Jobs Platform</button>
       </div>
     </div>
       
@@ -64,7 +63,7 @@
 
    
     <!-- Spinner -->
-      <div v-if="loading" class="absolute inset-0 backdrop-blur-sm bg-white/40 z-20 flex flex-col justify-center items-center">
+      <div v-if="loading" class="absolute inset-0 backdrop-blur-3xl bg-white/40 z-20 flex flex-col justify-center items-center">
         <div class="flex border border-slate-500 border-opacity-40 shadow-sm bg-slate-200 p-3 rounded-2xl">
           <div class="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
         <p class="text-center text-slate-700 mt-4 text-sm pl-2">Fetching Domain Rankings...</p>
@@ -95,7 +94,7 @@ import {
 } from '../api/rankingAPI.js';
 import DomainRankingChart from '../components/DomainRankingChart.vue';
 import { computed } from 'vue';
-import { topRetail, topAI, topJobs, topBanks, topNews, topSocialMedia } from '../assets/domainNames.js';
+import { topRetail, topJobs, topBanks, topNews, topSocialMedia} from '../assets/domainNames.js';
 
 
 const input = ref('');
@@ -106,7 +105,12 @@ const isValidDomain = ref(false);
 const items = ref([]);
 const inputCleaned = ref('');
 const showPlaceholder = ref(true);// added boolean value to show placeholder
-const inputValue = ref(false);
+const inputValue  = ref(false);
+const banks = topBanks;
+const socialMedia = topSocialMedia;
+const retail = topRetail;
+const news = topNews;    
+const jobs = topJobs;
 
 const multiDomainRegex =
   /^((?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6})(, (?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6})*$/;
@@ -165,8 +169,8 @@ function removeButtons(){// function to remove all buttons when clear is clicked
 async function onSubmit() {
   error.value = '';
   results.value = [];
-  if(items.value.length<1 && !input.value){
-   inputValue.value=true;
+  if(items.value.length<1 && !input.value){// checks if there are no buttons and no input field value
+   inputValue.value=true;//shows the error message
    return;
   }
   if(items.value.length<1 && inputCleaned.value){// checks if there are no buttons and input field has value
@@ -183,7 +187,7 @@ async function onSubmit() {
   
 async function fetchdata(){// function to fetch data from backend
     try {
-    const domains = items.value.map(d => d.trim());//splits the strings into substrings and return them as array with white spaced removed
+    const domains = items.value.map(d => d.trim());//splits the strings into substrings and return them as array without white spaced removed
 
     if (domains.length === 1) {//if the domain is single domain input
       const data = await fetchsingledomain(domains[0]);
@@ -226,7 +230,14 @@ onMounted(() => {// on component mount, check for domains in URL parameters
 });
 
 function fetchPopularDomain(domainList){// function to fetch popular domain sets
-  items.value = domainList;
+  if(items.value.length>0){
+    items.value.splice(0,items.value.length);// clears existing items
+    results.value =[];// clears existing results and resetting the chart
+  }
+  console.log(domainList);
+  const domains = [...domainList]// creates a copy of the domain list so the original remains unchanged
+  items.value = domains;
+  console.log(items.value);
   showPlaceholder.value = false;
   loading.value = true;
   fetchdata();

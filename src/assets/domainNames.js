@@ -19,34 +19,25 @@ const topSocialMedia = [
 const topRetail = [
     "amazon.com.au",
     "ebay.com.au",
-    "walmart.com.au",
-    "alibaba.com.au",
-    "etsy.com.au",
-]   
+    "kmart.com.au",
+    "bunnings.com.au",
+    "jbhifi.com.au",
+]  
 
 const topNews = [
     "7news.com.au",
     "abc.net.au",
     "news.com.au",
-    "theguardian.com/au",
+    "theage.com.au",
     "smh.com.au",
-]
-
-const topAI = [
-    "openai.com",
-    "chatgpt.com",
-    "bard.google.com",
-    "anthropic.com",
-    "midjourney.com",
-    "gemini.com",
 ]
 
 const topJobs = [
     "seek.com.au",
     "indeed.com.au",
-    "linkedin.com/jobs",
+    "linkedin.com",
     "glassdoor.com",
-    "jora.com.au",
+    "adzuna.com.au",
 ]
 
 export {
@@ -54,6 +45,5 @@ export {
     topSocialMedia,
     topRetail,
     topNews,
-    topAI,
     topJobs
 }
