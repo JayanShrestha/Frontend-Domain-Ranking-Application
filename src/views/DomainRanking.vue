@@ -1,8 +1,8 @@
 <template>
   <div class="mx-auto  px-4 border-b bg-gradient-to-r from-[#8c52ff] to-[#ff914d] shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-left flex-col">
-      <h1 class="sm:text-base md:text-3xl text-sm font-bold text-gray-100 pt-5 drop-shadow-md">Domain Ranking Viewer</h1>
-    <p class="sm:text-sm md:text-base text-xs font-semibold text-gray-50 pb-5 drop-shadow-md">Ranking of domain over time</p>
+      <h1 class="sm:text-base md:text-3xl text-sm font-bold text-gray-100 pt-5 px-6 drop-shadow-md">Domain Ranking Viewer</h1>
+    <p class="sm:text-sm md:text-base text-xs font-semibold text-gray-50 pb-5 px-6 drop-shadow-md">Ranking of domain over time</p>
     </div>
     
     </div>
