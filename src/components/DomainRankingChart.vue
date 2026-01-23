@@ -1,7 +1,7 @@
 <template>
   <div class="border-2 my-6 mx-auto rounded-2xl max-w-6xl border-slate-200 shadow-sm bg-white px-5">
     <div class="flex justify-end py-3">
- <button class="border rounded-3xl drop-shadow-md hover:bg-gray-100 active:scale-95 transition text-slate-700   p-2" @click="copyLink"><span class="flex"><svg xmlns="http://www.w3.org/2000/svg" 
+ <button class="border rounded-3xl drop-shadow-md hover:bg-gray-100 active:scale-95 transition text-slate-700 p-2" @click="copyLink"><span class="flex"><svg xmlns="http://www.w3.org/2000/svg" 
      fill="none" 
      viewBox="0 0 24 24" 
      stroke-width="1.5" 

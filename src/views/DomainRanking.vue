@@ -17,7 +17,7 @@
       <div
         v-for="(item, index) in items"
         :key="index"
-        class="flex items-center gap-2 px-2 py-2 rounded-xl bg-purple-200 text-slate-500 sm:text-base font-medium text-sm"
+        class="flex items-center gap-2 px-2 rounded-xl bg-purple-200 text-slate-500 sm:text-base font-medium text-sm"
       >
         {{ item }}
 
@@ -46,7 +46,17 @@
       <button @click.stop="input='' || removeButtons()" type="button" class="border bg-[#ff914d] text-white rounded-3xl font-sans font-semibold cursor-pointer drop-shadow-sm h-fit hover:translate-y-2 duration-300 mt-3" ><span class="drop-shadow-md sm:text-sm md:text-base text-xs">Clear</span></button>
     
     </form>
-   
+   <div>
+    <p class="mt-4 sm:text-sm text-xs text-slate-500 px-6">Try with popular domains:</p>
+   </div>
+    <div class="flex flex-wrap gap-3 mt-2 px-6">
+      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topBanks)">Top 5 Australian Banks</button>
+      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topSocialMedia)">Social Media Battle</button>
+      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topRetail)">Retails Rampage</button>
+      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topNews)">Top Aussie News</button>
+      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topAI)">AI vs AI</button>
+      <button class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click="fetchPopularDomain(topJobs)">Jobs Platform</button>
+      </div>
     </div>
       
     <p v-if="inputValue" class="error max-w-6xl mx-auto my-5 px-5">{{"Please enter a valid domain name or names separated by commas" }}</p>
@@ -55,7 +65,7 @@
    
     <!-- Spinner -->
       <div v-if="loading" class="absolute inset-0 backdrop-blur-sm bg-white/40 z-20 flex flex-col justify-center items-center">
-        <div class="flex border border-slate-500 border-opacity-40 shadow-sm bg-slate-200 p-3">
+        <div class="flex border border-slate-500 border-opacity-40 shadow-sm bg-slate-200 p-3 rounded-2xl">
           <div class="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
         <p class="text-center text-slate-700 mt-4 text-sm pl-2">Fetching Domain Rankings...</p>
         </div>
@@ -85,6 +95,8 @@ import {
 } from '../api/rankingAPI.js';
 import DomainRankingChart from '../components/DomainRankingChart.vue';
 import { computed } from 'vue';
+import { topRetail, topAI, topJobs, topBanks, topNews, topSocialMedia } from '../assets/domainNames.js';
+
 
 const input = ref('');
 const loading = ref(false);
@@ -213,7 +225,12 @@ onMounted(() => {// on component mount, check for domains in URL parameters
   }
 });
 
-
+function fetchPopularDomain(domainList){// function to fetch popular domain sets
+  items.value = domainList;
+  showPlaceholder.value = false;
+  loading.value = true;
+  fetchdata();
+}
 </script>
 
 <style scoped>
