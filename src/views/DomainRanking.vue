@@ -162,6 +162,7 @@ showPlaceholder.value = true;
 
 function removeButtons(){// function to remove all buttons when clear is clicked
   items.value.splice(0,items.value.length);
+  results.value =[];// clears existing results and resetting the chart
   showPlaceholder.value = true;
 }
 
