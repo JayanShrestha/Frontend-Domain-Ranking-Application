@@ -2,21 +2,25 @@ A responsive Vue.js frontend for visualizing Tranco domain ranking data over tim
 This application allows users to enter one or multiple domain names, fetch their ranking history from the backend API, and view the results in a clean, interactive chart. It’s built with Vue 3, Vite, Tailwind CSS, and Chart.js, and deployed on Cloudflare Pages.
 
 🚀 Features
+
 🔹 Multi‑Domain Input
 - Accepts single or comma‑separated domain names
 - Auto‑formats input (domain.com, example.com)
 - Regex‑based validation for clean UX
 - Shareable Link for efficient ranking data sharing
+  
 🔹 Ranking Visualization
 - Interactive line chart using Chart.js
 - Responsive layout for mobile and desktop
 - Clean, polished UI with Tailwind CSS
 - Hover tooltips with date + rank
 - Reverse y‑axis (Rank #1 at the top)
+  
 🔹 API Integration
 - Fetches ranking data from a NestJS backend
 - Supports single‑domain and multi‑domain queries
 - Displays cached status and record count
+  
 🔹 Error Handling
 - Invalid domain warnings
 - API error messages
@@ -59,17 +63,21 @@ http://localhost:5173
 
 🛠️ Debugging Journey (Key Learnings)
 This project involved solving several real‑world frontend issues:
+
 ✔ Tailwind CSS not applying
 Fixed by ensuring:
 - Tailwind imported in main.js
 - Correct content paths in tailwind.config.js
 - Restarting Vite after config changes
+
 ✔ PostCSS “media is not defined” error
 Caused by an invalid key in tailwind.config.js.
 Resolved by removing unsupported config and using screens properly.
+
 ✔ Chart.js showing unwanted numbers
 The chartjs-plugin-datalabels plugin was auto‑rendering labels.
 Removed the plugin to clean up the chart.
+
 ✔ Overlapping x‑axis labels on mobile
 Implemented:
 - autoSkip
