@@ -6,6 +6,7 @@ This application allows users to enter one or multiple domain names, fetch their
 - Accepts single or comma‑separated domain names
 - Auto‑formats input (domain.com, example.com)
 - Regex‑based validation for clean UX
+- Shareable Link for efficient ranking data sharing
 🔹 Ranking Visualization
 - Interactive line chart using Chart.js
 - Responsive layout for mobile and desktop
