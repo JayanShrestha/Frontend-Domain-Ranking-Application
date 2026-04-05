@@ -1,4 +1,7 @@
 <template>
+  <div>
+    <Toast v-if="showToast" message = "Welcome ! This app is built on Cloudflare and Koyeb on free subscription. Please give the app 3 to 5 seconds after initial rank fetching to warm up the server on koyeb. You can keep trying to fetch until you see the result for jumpstarting the server. Thanks :)"/>
+  </div>
   <div class="mx-auto  px-4 border-b bg-gradient-to-r from-[#8c52ff] to-[#ff914d] shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-left flex-col">
       <h1 class="sm:text-base md:text-3xl text-sm font-bold text-gray-100 pt-5 px-6 drop-shadow-md">Domain Ranking Viewer</h1>
@@ -95,7 +98,7 @@ import {
 import DomainRankingChart from '../components/DomainRankingChart.vue';
 import { computed } from 'vue';
 import { topRetail, topJobs, topBanks, topNews, topSocialMedia} from '../assets/domainNames.js';
-
+import Toast from '../components/Toast.vue';
 
 const input = ref('');
 const loading = ref(false);
@@ -112,6 +115,7 @@ const retail = topRetail;
 const news = topNews;    
 const jobs = topJobs;
 
+const showToast = ref(false);
 const multiDomainRegex =
   /^((?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6})(, (?!:\/\/)([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,6})*$/;
 function formatAndValidate() {
@@ -219,6 +223,8 @@ const shareableLink = computed(() => {// computes the shareable link for the cur
 });
 
 onMounted(() => {// on component mount, check for domains in URL parameters
+  //Trigger Toast on page load
+  showToast.value = true;
   const urlParams = new URLSearchParams(window.location.search);// gets the URL parameters
   const domainsParam = urlParams.get('domains');// gets the 'domains' parameter value
   if (domainsParam) {// if domains parameter exists
