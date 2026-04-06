@@ -218,7 +218,7 @@ async function fetchdata(){// function to fetch data from backend
 }
 const shareableLink = computed(() => {// computes the shareable link for the current results
   if (results.value.length === 0) return '';// if no results, return empty string
-  const domains = results.value.map(r => r.domain).join(',');// joins the domain names with comma
+  const domains = results.value.map((item, index) => (item.records[index].domain)).join(',');// joins the domain names with comma
   return `${window.location.origin}/?domains=${encodeURIComponent(domains)}`;// constructs the shareable link with encoded domain names
 });
 
