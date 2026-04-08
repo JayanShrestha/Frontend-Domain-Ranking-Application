@@ -174,6 +174,7 @@ function removeButtons(){// function to remove all buttons when clear is clicked
 async function onSubmit() {
   error.value = '';
   results.value = [];
+  inputValue.value = false;
   if(items.value.length<1 && !input.value){// checks if there are no buttons and no input field value
    inputValue.value=true;//shows the error message
    return;
@@ -191,6 +192,7 @@ async function onSubmit() {
  }
   
 async function fetchdata(){// function to fetch data from backend
+   inputValue.value = false;
     try {
     const domains = items.value.map(d => d.trim());//splits the strings into substrings and return them as array without white spaced removed
 
