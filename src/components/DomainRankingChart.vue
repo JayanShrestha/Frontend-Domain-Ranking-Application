@@ -59,10 +59,10 @@ const results = props.results;
 const shareableLink = props.shareableLink;
 const chartData = {
   labels: props.results[0]?.records.map(r => r.checkedAt).sort(), // assumes all domains share same dates
-  datasets: props.results.map((item, index) => ({
-    label: item.records[index].domain,
-    data: item.records.sort((a,b)=>new Date(a.checkedAt)-new Date(b.checkedAt)).map(r => r.rank),
-    borderColor: `hsl(${index * 70}, 70%, 50%)`,
+  datasets: props.results.map((result,random=Math.random) => ({
+    label: result.records[0].domain,
+    data: result.records.sort((a,b)=>new Date(a.checkedAt)-new Date(b.checkedAt)).map(r => r.rank),
+    borderColor: `hsl(${(random) * 70}, 70%, 50%)`,
     fill: false,
   })),
 };

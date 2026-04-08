@@ -2,10 +2,10 @@
 
     
         <div class="grid gap-2 sm:grid-cols-2 lg:grid-cols-3 grid-flow-row" >
-            <div v-for="result in results" :key="result.domain">
+            <div v-for="result in results" :key="result.records.domain">
                 <div class="card border-2 rounded-2xl max-w-xs mx-auto border-slate-200 shadow-sm my-6 ">
                     <h2 class="text-lg font-bold text-slate-600 text-center pt-4">
-                        {{ result.domain }}
+                        {{ result.records[0].domain }}
                     </h2>
                     <div class="flex flex-col items-center py-5">
                     <p class="text-sm text-slate-500">Latest Rank: <span class="text-sm font-semibold">{{ result.records.at(-1).rank }}</span> </p>
