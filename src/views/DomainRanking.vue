@@ -53,11 +53,11 @@
     <p class="mt-4 sm:text-sm text-xs text-slate-500 px-6">Try with popular domains:</p>
    </div>
     <div class="flex flex-wrap gap-3 mt-2 px-6">
-      <button type="button" class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(banks)">Top 5 Australian Banks</button>
-      <button type="button" class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(socialMedia)">Social Media Battle</button>
-      <button type="button" class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(retail)">Retails Rampage</button>
-      <button type="button" class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(news)">Top Aussie News</button>
-      <button type="button" class="border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(jobs)">Jobs Platform</button>
+      <button type="button" class=" hover:scale-105 border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(banks)">Top 5 Australian Banks</button>
+      <button type="button" class="hover:scale-105 border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(retail)">Retails Rampage</button>
+      <button type="button" class="hover:scale-105 border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(news)">Top Aussie News</button>
+      <button type="button" class="hover:scale-105 border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(socialMedia)">Social Media Battle</button>
+      <button type="button" class="hover:scale-105 border rounded-3xl drop-shadow-md bg-purple-200 text-slate-700 text-xs cursor-pointer" @click.stop="fetchPopularDomain(jobs)">Jobs Platform</button>
       </div>
     </div>
       
@@ -208,7 +208,8 @@ async function fetchdata(){// function to fetch data from backend
       ];
     } else {
       const data = await fetchmultdomain(items.value.toString());//backend does the array conversion so sending the raw data 
-      results.value = data.results;
+      const safeResults = (data?.results || []).filter(Boolean);
+      results.value = safeResults;
     }
   } catch (err) {
     error.value = err.response?.data?.message || 'Failed to fetch rankings';
@@ -220,7 +221,7 @@ async function fetchdata(){// function to fetch data from backend
 }
 const shareableLink = computed(() => {// computes the shareable link for the current results
   if (results.value.length === 0) return '';// if no results, return empty string
-  const domains = results.value.map((item, index) => (item.records[index].domain)).join(',');// joins the domain names with comma
+  const domains = results.value.map((result) => (result.records[0].domain)).join(',');// joins the domain names with comma
   return `${window.location.origin}/?domains=${encodeURIComponent(domains)}`;// constructs the shareable link with encoded domain names
 });
 
