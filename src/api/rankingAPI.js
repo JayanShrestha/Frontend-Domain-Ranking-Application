@@ -11,30 +11,6 @@ function validateApiConfig() {
 }
 
 /**
- * Validates domain input
- */
-function validateDomain(domain) {
-  if (!domain || typeof domain !== 'string' || domain.trim() === '') {
-    throw new Error('Domain must be a non-empty string');
-  }
-  return domain.trim();
-}
-
-/**
- * Validates domains input (comma-separated or array)
- */
-function validateDomains(domains) {
-  if (!domains || (typeof domains !== 'string' && !Array.isArray(domains))) {
-    throw new Error('Domains must be a non-empty string or array');
-  }
-  const domainsStr = Array.isArray(domains) ? domains.join(',') : domains.trim();
-  if (domainsStr === '') {
-    throw new Error('Domains list cannot be empty');
-  }
-  return domainsStr;
-}
-
-/**
  * Creates an abort controller with timeout
  */
 function createAbortSignal() {
@@ -67,14 +43,13 @@ async function handleResponse(response) {
  * @returns {Promise<Object>} Ranking data
  * @throws {Error} If validation fails or API request fails
  */
-export async function fetchSingleDomain(domain) {
+export async function fetchsingledomain(domain) {
   try {
     validateApiConfig();
-    const validatedDomain = validateDomain(domain);
-    const { controller, timeoutId } = createAbortSignal();
 
+    const { controller, timeoutId } = createAbortSignal();
     const response = await fetch(
-      `${API_BASE_URL}/ranking/tranco?domain=${encodeURIComponent(validatedDomain)}`,
+      `${API_BASE_URL}/ranking/tranco?domain=${encodeURIComponent(domain)}`,
       { signal: controller.signal }
     );
 
@@ -95,14 +70,12 @@ export async function fetchSingleDomain(domain) {
  * @returns {Promise<Object>} Ranking data for all domains
  * @throws {Error} If validation fails or API request fails
  */
-export async function fetchMultipleDomains(domains) {
+export async function fetchmultdomain(domains) {
   try {
     validateApiConfig();
-    const validatedDomains = validateDomains(domains);
     const { controller, timeoutId } = createAbortSignal();
-
     const response = await fetch(
-      `${API_BASE_URL}/ranking/tranco/multi?domains=${encodeURIComponent(validatedDomains)}`,
+      `${API_BASE_URL}/ranking/tranco/multi?domains=${encodeURIComponent(domains)}`,
       { signal: controller.signal }
     );
 
