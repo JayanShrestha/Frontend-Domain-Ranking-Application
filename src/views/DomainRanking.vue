@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Toast v-if="showToast" message = "Welcome ! This app is built on Cloudflare and Koyeb on free subscription. Please give the app 3 to 5 seconds after initial rank fetching to warm up the server on koyeb. You can keep trying to fetch until you see the result for jumpstarting the server. Thanks :)"/>
+    <Toast v-if="showToast" message = "Welcome ! This app is built on Cloudflare and Koyeb on free subscription. Please give the app 5 to 10 seconds after initial rank fetching to warm up the server on koyeb. You can keep trying to fetch until you see the result. Thank you for your patience. :)"/>
   </div>
   <div class="mx-auto  px-4 border-b bg-gradient-to-r from-[#8c52ff] to-[#ff914d] shadow-sm">
     <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-left flex-col">
@@ -213,6 +213,7 @@ async function fetchdata(){// function to fetch data from backend
     }
   } catch (err) {
     error.value = err.response?.data?.message || 'Failed to fetch rankings';
+    loading.value = false;
   } finally {
     loading.value = false;
   
