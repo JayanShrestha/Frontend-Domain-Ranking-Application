@@ -213,6 +213,7 @@ async function fetchdata(){// function to fetch data from backend
     }
   } catch (err) {
     error.value = err.response?.data?.message || 'Failed to fetch rankings';
+    loading.value = false;
   } finally {
     loading.value = false;
   

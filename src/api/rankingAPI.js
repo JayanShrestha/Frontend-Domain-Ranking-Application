@@ -54,6 +54,9 @@ export async function fetchsingledomain(domain) {
     );
 
     clearTimeout(timeoutId);
+    if(response.status === 500){
+      throw new Error ("TR_500");
+    }
     return await handleResponse(response);
   } catch (error) {
     if (error.name === 'AbortError') {
@@ -80,6 +83,9 @@ export async function fetchmultdomain(domains) {
     );
 
     clearTimeout(timeoutId);
+    if(response.status === 500){
+      throw new Error ("TR_500");
+    }
     return await handleResponse(response);
   } catch (error) {
     if (error.name === 'AbortError') {
