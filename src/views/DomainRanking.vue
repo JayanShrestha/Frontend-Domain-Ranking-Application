@@ -85,7 +85,7 @@
 </div>
 
 <DomainRankingChart v-if="results.length" :results="results" :shareableLink="shareableLink"/>
-
+<Footer/>
  
 </template>
 
@@ -99,6 +99,7 @@ import DomainRankingChart from '../components/DomainRankingChart.vue';
 import { computed } from 'vue';
 import { topRetail, topJobs, topBanks, topNews, topSocialMedia} from '../assets/domainNames.js';
 import Toast from '../components/Toast.vue';
+import Footer from '../components/Footer.vue';
 
 const input = ref('');
 const loading = ref(false);
